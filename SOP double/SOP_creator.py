@@ -9,11 +9,11 @@ delimiter = '$$$'
 file = open(file_name, 'r', encoding="utf-8")
 tmp = file.read()
 
-csv_file = open('NSP.csv', 'w', newline="", encoding="utf-8")
+csv_file = open('SOP.csv', 'w', newline="", encoding="utf-8")
 writer = csv.writer(csv_file)
 
 # Записываем заголовки полей
-writer.writerow(["sentence_A", "sentence_B", "sentence_C", "NSP", "new_url", "main_url"])
+writer.writerow(["sentence_A", "sentence_B", "sentence_C", "SOP", "new_url", "main_url"])
 
 textsWithUrls = tmp.split(delimiter)
 
@@ -31,19 +31,13 @@ for textWithUrls in textsWithUrls:
     iterator = 0
     count = len(sentences)
     j=0
-    for news in sentences:
+    for j in range(0, count , 2):
         if(j+1 >= count):
             continue
-        iterator = random.randint(j+1, count-1)
-        second_news = sentences[iterator].replace('"','')
-        del sentences[iterator]
-        news = news.replace('"','')
-        count = len(sentences)
-        j += 1
-        if news == "" or second_news == "" or len(news) < 5 or len(second_news) < 5:
-            continue
+        sentences[j] = sentences[j].replace('"','')
+        sentences[j+1] = sentences[j+1].replace('"','')
         k = random.randint(0, 1)
         if k == 1:
-            writer.writerow([news, second_news, k , url, mainUrl])
+            writer.writerow([sentences[j], sentences[j+1], k, url, mainUrl])
         else:
-            writer.writerow([second_news, news, k , url, mainUrl])
+            writer.writerow([sentences[j+1],sentences[j], k , url, mainUrl])
